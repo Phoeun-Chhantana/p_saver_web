@@ -21,16 +21,25 @@ btnView.addEventListener("click", async () => {
     if(inputUrl.value === "") return;
     if(checkUrl.includes("facebook")){
       showLoading();
-      const source = await new FacebookSource(inputUrl.value).fetchData();
+      const data = await new FacebookSource(inputUrl.value).fetchData();
       hideLoading();
-      if(source === undefined) return;
-      loadImageView(source);
+      if(data === undefined) return;
+      if(data.res.status == 200){
+        loadImageView(data.imageUrl);
+      }else{
+        message.textContent = data.res.message;
+        section.appendChild(message);
+      }
     }else if(checkUrl.includes("ngl")){
       showLoading();
-      const source = await new NGLSource(inputUrl.value).fetchData();
+      const data = await new NGLSource(inputUrl.value).fetchData();
       hideLoading();
-      if(source === undefined) return;
-      loadImageView(source);
+      if(data === undefined) return;
+      if(data.res.status != 200){
+        message.textContent = data.res.message;
+        section.appendChild(message);
+      }
+      else loadImageView(data.imageUrl);
     }else if(checkUrl.includes("instagram")){
       showLoading();
       const source = await new InstagramSource(inputUrl.value).fetchData();
@@ -38,12 +47,13 @@ btnView.addEventListener("click", async () => {
       if(source === undefined){
         return;
       }
-      if(!source.includes("http")){
-        message.textContent = source;
-        section.appendChild(message);
-        return;
-      }
-      loadImageView(source);
+      // if(!source.includes("http")){
+      //   message.textContent = source;
+      //   section.appendChild(message);
+      //   return;
+      // }
+      //loadImageView(source);
+      loadImageViewByBase64(source);
     }
     else if(checkUrl.includes("tiktok")){
       showLoading();
@@ -109,6 +119,13 @@ function loadImageView(url){
   section.appendChild(imgElement);
 }
 
+function loadImageViewByBase64(text){
+  imgElement.src = `data:image/jpeg;base64, ${text}`;
+  imgElement.alt = "image"
+  imgElement.loading = "lazy";
+  section.appendChild(imgElement);
+}
+
 function showLoading(){
   btnView.disabled = true;
   btnView.style.filter = "grayscale()";
@@ -122,35 +139,3 @@ function hideLoading(){
   loading.style.display = "none";
   //section.removeChild(loading);
 }
-
-// function makeHttpObject() {
-//   try {return new XMLHttpRequest();}
-//   catch (error) {}
-//   try {return new ActiveXObject("Msxml2.XMLHTTP");}
-//   catch (error) {}
-//   try {return new ActiveXObject("Microsoft.XMLHTTP");}
-//   catch (error) {}
-
-//   throw new Error("Could not create HTTP request object.");
-// }
-
-// var request = makeHttpObject();
-// request.withCredentials = false;
-// request.open("GET", "https://www.google.com", true);
-// request.setRequestHeader("Access-Control-Allow-Origin", "*");
-// request.send(null);
-// request.onreadystatechange = function() {
-//   if (request.readyState == 4)
-//     console.log(request);
-// };
-
-// const http = new XMLHttpRequest();
-// http.onreadystatechange = () => {
-//   console.log(http);
-// }
-// http.open("GET", "https://www.instagram.com/graphql/query/?query_id=17888483320059182&variables={“id”:“8556131572”,“first”:1,“after”:null}", true);
-// //http.open("GET", "https://dummyjson.com/products/1", "true");
-// http.setRequestHeader("Accept", "application/json");
-// http.setRequestHeader("Access-Control-Allow-Origin", "*");
-// http.setRequestHeader("Access-Control-Allow-Methods", "GET");
-// http.send();
