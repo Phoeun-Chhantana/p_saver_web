@@ -6,8 +6,8 @@ class BaseResponse{
 }
 
 class UserInfo{
-    constructor(res, imageUrl){
+    constructor(res, media){
         this.res = res;
-        this.imageUrl = imageUrl;
+        this.media = media;
     }
 }

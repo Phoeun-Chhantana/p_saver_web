@@ -6,8 +6,8 @@ class SocialSource{
       //const cors = "https://proxy.cors.sh/";
       //const cors = "https://cors-anywhere.herokuapp.com/";
       // this.url = `${encodeURIComponent(url)}`;
-      this.url = `http://localhost:3000/url?${url}`;
-      //this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
+      //this.url = `http://localhost:3000/url?${url}`;
+      this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
       }
@@ -35,7 +35,7 @@ class SocialSource{
       const res = await fetch(`${this.url}`, options);
       if(res.status == 200){
         const htmlContent = await res.text();
-        for(var item of htmlContent.split("pfp-container")){
+        for(let item of htmlContent.split("pfp-container")){
           if(item.includes("pfp") && item.includes(".jpg")){
             if(item.match(regExp)){
               if(item.match(regExp)[0].includes("firebasestorage.googleapis")){
@@ -43,7 +43,7 @@ class SocialSource{
                 //return urlProfilePic.substring(0, urlProfilePic.length - 1);
                 return new UserInfo(
                   new BaseResponse(res.status, res.statusText),
-                  urlProfilePic.substring(0, urlProfilePic.length - 1)
+                  new SingleMediaInfo(urlProfilePic.substring(0, urlProfilePic.length - 1))
                 );
               }
             }
@@ -73,7 +73,7 @@ class SocialSource{
       const htmlContent = await res.text();
       const responseBody = JSON.parse(htmlContent);
       if(res.status == 200){
-        for(var item of responseBody.split("meta")){
+        for(let item of responseBody.split("meta")){
           if(item.includes("og:image")){
             // if(item.match(regExp)){
             //   const positon = item.search(regExp);
@@ -83,7 +83,7 @@ class SocialSource{
             const urlProfilePic = item.substring(30).split("\"")[0].replaceAll("amp;", "");
             return new UserInfo(
               new BaseResponse(res.status, res.statusText),
-              urlProfilePic
+              new SingleMediaInfo(urlProfilePic)
             );
           }
         }
@@ -114,7 +114,15 @@ class SocialSource{
       const responseBody = await res.json();
       const jsonObj = JSON.parse(responseBody);
       if(res.status == 200){
-        return jsonObj["profile_base64"];
+
+        if(jsonObj["media_data"].constructor === Array){
+          return new UserInfo(new BaseResponse(res.status, res.statusText), 
+            new MultiMediaInfo(jsonObj["media_data"]))
+        }
+        else return new UserInfo(new BaseResponse(res.status, res.statusText), 
+          new SingleMediaInfo(jsonObj["media_data"]));
+
+
         // if(this.url.includes("instagram/p/")){
 
         // }
@@ -172,6 +180,9 @@ class SocialSource{
 
          //METHOD 4
          //https://www.instagram.com/p/CHAuom7D9_w/?__a=1&__d=dis
+      }
+      else{
+        return new UserInfo(new BaseResponse(res.status, res.statusText));
       }
     }
   }

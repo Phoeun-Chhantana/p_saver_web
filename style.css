@@ -192,14 +192,20 @@ section > img{
      }
 }
 
-/* .image-container{
+.image-container{
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2em;
     justify-content: center;
-} */
+}
 
-/* .image-view{
+.image-view{
     width: 100%;
-} */
+}
+
+@media (max-width: 768px){
+    .image-container{
+        grid-template-columns: 1fr;
+    }
+}

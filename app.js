@@ -1,4 +1,5 @@
 const inputUrl = document.querySelector("#input-url");
+const imgContainer = document.createElement("div");
 const imgElement = document.createElement("img");
 const section = document.querySelector(".main-section");
 const message = document.createElement("p");
@@ -15,7 +16,10 @@ const iconLink = document.querySelector("#icon-link");
 btnView.addEventListener("click", async () => {
   try{
     if(section.children[2] !== undefined){
-      section.removeChild(imgElement);
+      // while(imgContainer.firstChild){
+      //   imgContainer.removeChild(imgContainer.lastChild);
+      // }
+      section.removeChild(imgContainer);
     }
     const checkUrl = inputUrl.value.toLowerCase();
     if(inputUrl.value === "") return;
@@ -25,7 +29,7 @@ btnView.addEventListener("click", async () => {
       hideLoading();
       if(data === undefined) return;
       if(data.res.status == 200){
-        loadImageView(data.imageUrl);
+        loadImageView(data.media.media);
       }else{
         message.textContent = data.res.message;
         section.appendChild(message);
@@ -39,7 +43,7 @@ btnView.addEventListener("click", async () => {
         message.textContent = data.res.message;
         section.appendChild(message);
       }
-      else loadImageView(data.imageUrl);
+      else loadImageView(data.media.media);
     }else if(checkUrl.includes("instagram")){
       showLoading();
       const source = await new InstagramSource(inputUrl.value).fetchData();
@@ -52,8 +56,13 @@ btnView.addEventListener("click", async () => {
       //   section.appendChild(message);
       //   return;
       // }
-      //loadImageView(source);
-      loadImageViewByBase64(source);
+      
+      if(source.res.status != 200){
+        message.textContent = data.res.message;
+        section.appendChild(message);
+        return;
+      }
+      loadImageViewByBase64(source.media);
     }
     else if(checkUrl.includes("tiktok")){
       showLoading();
@@ -113,17 +122,38 @@ inputUrl.onfocus = function(e){
 }
 
 function loadImageView(url){
+  imgContainer.className = "image-container";
   imgElement.src = url;
+  imgElement.className = "image-view";
   imgElement.alt = "image"
   imgElement.loading = "lazy";
-  section.appendChild(imgElement);
+  imgContainer.appendChild(imgElement);
+  section.appendChild(imgContainer);
 }
 
-function loadImageViewByBase64(text){
-  imgElement.src = `data:image/jpeg;base64, ${text}`;
+function loadImageViewByBase64(mediaData){
+  imgContainer.className = "image-container";
+  if(mediaData instanceof MultiMediaInfo){
+    let temp = [];
+    for(let item of mediaData.media){
+      const imgItem = document.createElement("img");
+      imgItem.src = `data:image/jpeg;base64, ${item}`;
+      imgItem.className = "image-view";
+      imgItem.alt = "image"
+      imgItem.loading = "lazy";
+      temp.push(imgItem);
+      //imgContainer.appendChild(imgItem);
+    }
+    imgContainer.replaceChildren(...temp);
+    section.appendChild(imgContainer);
+    return;
+  }
+  imgElement.src = `data:image/jpeg;base64, ${mediaData.media}`;
+  imgElement.className = "image-view";
   imgElement.alt = "image"
   imgElement.loading = "lazy";
-  section.appendChild(imgElement);
+  imgContainer.appendChild(imgElement);
+  section.appendChild(imgContainer);
 }
 
 function showLoading(){
