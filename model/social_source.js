@@ -1,5 +1,3 @@
-//const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
-
 class SocialSource{
     constructor(url) {
       //const cors = "https://corsproxy.io/?";
@@ -114,14 +112,8 @@ class SocialSource{
       const responseBody = await res.json();
       const jsonObj = JSON.parse(responseBody);
       if(res.status == 200){
-
-        if(jsonObj["media_data"].constructor === Array){
-          return new UserInfo(new BaseResponse(res.status, res.statusText), 
-            new MultiMediaInfo(jsonObj["media_data"]))
-        }
-        else return new UserInfo(new BaseResponse(res.status, res.statusText), 
-          new SingleMediaInfo(jsonObj["media_data"]));
-
+        return new UserInfo(new BaseResponse(res.status, res.statusText), 
+            new MediaInfo(jsonObj["media_data"]));
 
         // if(this.url.includes("instagram/p/")){
 

@@ -1,6 +1,7 @@
 const inputUrl = document.querySelector("#input-url");
-const imgContainer = document.createElement("div");
+const mediaContainer = document.createElement("div");
 const imgElement = document.createElement("img");
+const vidElement = document.createElement("video");
 const section = document.querySelector(".main-section");
 const message = document.createElement("p");
 const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
@@ -19,7 +20,7 @@ btnView.addEventListener("click", async () => {
       // while(imgContainer.firstChild){
       //   imgContainer.removeChild(imgContainer.lastChild);
       // }
-      section.removeChild(imgContainer);
+      section.removeChild(mediaContainer);
     }
     const checkUrl = inputUrl.value.toLowerCase();
     if(inputUrl.value === "") return;
@@ -58,11 +59,11 @@ btnView.addEventListener("click", async () => {
       // }
       
       if(source.res.status != 200){
-        message.textContent = data.res.message;
+        message.textContent = source.res.message;
         section.appendChild(message);
         return;
       }
-      loadImageViewByBase64(source.media);
+      loadMediaViewByBase64(source.media);
     }
     else if(checkUrl.includes("tiktok")){
       showLoading();
@@ -122,38 +123,63 @@ inputUrl.onfocus = function(e){
 }
 
 function loadImageView(url){
-  imgContainer.className = "image-container";
+  mediaContainer.className = "image-container";
   imgElement.src = url;
   imgElement.className = "image-view";
   imgElement.alt = "image"
   imgElement.loading = "lazy";
-  imgContainer.appendChild(imgElement);
-  section.appendChild(imgContainer);
+  mediaContainer.appendChild(imgElement);
+  section.appendChild(mediaContainer);
 }
 
-function loadImageViewByBase64(mediaData){
-  imgContainer.className = "image-container";
-  if(mediaData instanceof MultiMediaInfo){
-    let temp = [];
-    for(let item of mediaData.media){
-      const imgItem = document.createElement("img");
-      imgItem.src = `data:image/jpeg;base64, ${item}`;
-      imgItem.className = "image-view";
-      imgItem.alt = "image"
-      imgItem.loading = "lazy";
-      temp.push(imgItem);
-      //imgContainer.appendChild(imgItem);
+function loadMediaViewByBase64(mediaData){
+  mediaContainer.className = "media-container";
+  let temp = [];
+    if(mediaData.media.videos !== undefined){
+      if(typeof mediaData.media.videos === "string"){
+        console.log(mediaData.media.videos);
+        const sourceElement = document.createElement("source");
+        sourceElement.type = "video/mp4";
+        sourceElement.src = `data:video/mp4;base64, ${mediaData.media.videos}`;
+        vidElement.className = "media-item";
+        vidElement.controls = true;
+        vidElement.appendChild(sourceElement);
+        mediaContainer.appendChild(vidElement);
+        section.appendChild(mediaContainer);
+        return;
+      }
+      for(let item of mediaData.media.videos){
+        const vidItem = document.createElement("video");
+        const sourceElement = document.createElement("source");
+        sourceElement.type = "video/mp4";
+        sourceElement.src = `data:video/mp4;base64, ${item}`;
+        vidItem.className = "media-item";
+        vidItem.controls = true;
+        vidItem.appendChild(sourceElement);
+        temp.push(vidItem);
+      }
     }
-    imgContainer.replaceChildren(...temp);
-    section.appendChild(imgContainer);
-    return;
-  }
-  imgElement.src = `data:image/jpeg;base64, ${mediaData.media}`;
-  imgElement.className = "image-view";
-  imgElement.alt = "image"
-  imgElement.loading = "lazy";
-  imgContainer.appendChild(imgElement);
-  section.appendChild(imgContainer);
+    if(mediaData.media.images !== undefined){
+      if(typeof mediaData.media.images === "string"){
+        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.images}`;
+        imgElement.className = "media-item";
+        imgElement.alt = "image"
+        imgElement.loading = "lazy";
+        mediaContainer.appendChild(imgElement);
+        section.appendChild(mediaContainer);
+        return;
+      }
+      for(let item of mediaData.media.images){
+        const imgItem = document.createElement("img");
+        imgItem.src = `data:image/jpeg;base64, ${item}`;
+        imgItem.className = "media-item";
+        imgItem.alt = "image"
+        imgItem.loading = "lazy";
+        temp.push(imgItem);
+      }
+    }
+    mediaContainer.replaceChildren(...temp);
+    section.appendChild(mediaContainer);
 }
 
 function showLoading(){
