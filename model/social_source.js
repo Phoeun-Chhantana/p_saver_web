@@ -4,8 +4,12 @@ class SocialSource{
       //const cors = "https://proxy.cors.sh/";
       //const cors = "https://cors-anywhere.herokuapp.com/";
       // this.url = `${encodeURIComponent(url)}`;
-      //this.url = `http://localhost:3000/url?${url}`;
-      this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
+      if(url.includes("instagram")){
+        const newUrl = url.split("?")[0];
+        this.url = `http://localhost:3000/url?${newUrl}`;
+      }
+      else this.url = `http://localhost:3000/url?${url}`;
+      //this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
       }
@@ -38,10 +42,9 @@ class SocialSource{
             if(item.match(regExp)){
               if(item.match(regExp)[0].includes("firebasestorage.googleapis")){
                 const urlProfilePic = item.match(regExp)[0].split("\">")[0].replaceAll("amp;", "");
-                //return urlProfilePic.substring(0, urlProfilePic.length - 1);
                 return new UserInfo(
                   new BaseResponse(res.status, res.statusText),
-                  new SingleMediaInfo(urlProfilePic.substring(0, urlProfilePic.length - 1))
+                  new MediaInfo(urlProfilePic.substring(0, urlProfilePic.length - 1))
                 );
               }
             }
@@ -81,7 +84,7 @@ class SocialSource{
             const urlProfilePic = item.substring(30).split("\"")[0].replaceAll("amp;", "");
             return new UserInfo(
               new BaseResponse(res.status, res.statusText),
-              new SingleMediaInfo(urlProfilePic)
+              new MediaInfo(urlProfilePic)
             );
           }
         }
@@ -200,4 +203,4 @@ class SocialSource{
     //  }
     console.log(htmlContent);
    }
-  }
+}

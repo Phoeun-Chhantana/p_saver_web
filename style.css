@@ -197,7 +197,7 @@ section > img{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2em;
-    justify-content: center;
+    place-items: center;
 }
 
 .media-item{
@@ -205,7 +205,7 @@ section > img{
 }
 
 @media (max-width: 768px){
-    .image-container{
+    .media-container{
         grid-template-columns: 1fr;
     }
 }

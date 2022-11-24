@@ -123,9 +123,9 @@ inputUrl.onfocus = function(e){
 }
 
 function loadImageView(url){
-  mediaContainer.className = "image-container";
+  mediaContainer.className = "media-container";
   imgElement.src = url;
-  imgElement.className = "image-view";
+  imgElement.className = "media-view";
   imgElement.alt = "image"
   imgElement.loading = "lazy";
   mediaContainer.appendChild(imgElement);
