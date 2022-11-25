@@ -1,15 +1,14 @@
 class SocialSource{
     constructor(url) {
-      //const cors = "https://corsproxy.io/?";
-      //const cors = "https://proxy.cors.sh/";
-      //const cors = "https://cors-anywhere.herokuapp.com/";
-      // this.url = `${encodeURIComponent(url)}`;
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        this.url = `http://localhost:3000/url?${newUrl}`;
+        //this.url = `http://localhost:3000/url?${newUrl}`;
+        this.url = `https://my-cors-proxy.onrender.com/url?${newUrl}`;
       }
-      else this.url = `http://localhost:3000/url?${url}`;
-      //this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
+      else{
+        //this.url = `http://localhost:3000/url?${url}`;
+        this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
+      }
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
       }
@@ -182,25 +181,25 @@ class SocialSource{
     }
   }
 
-  class TiktokSource extends SocialSource{
-    constructor(url){
-      super(url);
-   }
-   async fetchData(){
-     const options = {
-       method: 'GET',
-       mode: 'cors',
-       headers: {
-         'Access-Control-Allow-Origin': '*',
-         'Access-Control-Allow-Methods': 'GET',
-         'Accept': '*/*'
-       }
-     }
-     const res = await fetch(`${this.url}`, options);
-     const htmlContent = await res.text();
-    //  for(var item of htmlContent.split("cover")){
-    //    console.log(item);
-    //  }
-    console.log(htmlContent);
-   }
-}
+//   class TiktokSource extends SocialSource{
+//     constructor(url){
+//       super(url);
+//    }
+//    async fetchData(){
+//      const options = {
+//        method: 'GET',
+//        mode: 'cors',
+//        headers: {
+//          'Access-Control-Allow-Origin': '*',
+//          'Access-Control-Allow-Methods': 'GET',
+//          'Accept': '*/*'
+//        }
+//      }
+//      const res = await fetch(`${this.url}`, options);
+//      const htmlContent = await res.text();
+//      for(var item of htmlContent.split("cover")){
+//        console.log(item);
+//      }
+//     console.log(htmlContent);
+//    }
+// }

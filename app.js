@@ -16,14 +16,17 @@ const iconLink = document.querySelector("#icon-link");
 
 btnView.addEventListener("click", async () => {
   try{
+    const checkUrl = inputUrl.value.toLowerCase();
+    if(inputUrl.value === "") return;
     if(section.children[2] !== undefined){
       // while(imgContainer.firstChild){
       //   imgContainer.removeChild(imgContainer.lastChild);
       // }
-      section.removeChild(mediaContainer);
+      if(section.children[2].constructor === HTMLParagraphElement){
+        section.removeChild(message);
+      }
+      else section.removeChild(mediaContainer);
     }
-    const checkUrl = inputUrl.value.toLowerCase();
-    if(inputUrl.value === "") return;
     if(checkUrl.includes("facebook")){
       showLoading();
       const data = await new FacebookSource(inputUrl.value).fetchData();
@@ -32,7 +35,7 @@ btnView.addEventListener("click", async () => {
       if(data.res.status == 200){
         loadImageView(data.media.media);
       }else{
-        message.textContent = data.res.message;
+        message.innerText = data.res.message;
         section.appendChild(message);
       }
     }else if(checkUrl.includes("ngl")){
@@ -41,7 +44,7 @@ btnView.addEventListener("click", async () => {
       hideLoading();
       if(data === undefined) return;
       if(data.res.status != 200){
-        message.textContent = data.res.message;
+        message.innerText = data.res.message;
         section.appendChild(message);
       }
       else loadImageView(data.media.media);
@@ -59,7 +62,7 @@ btnView.addEventListener("click", async () => {
       // }
       
       if(source.res.status != 200){
-        message.textContent = source.res.message;
+        message.innerText = source.res.message;
         section.appendChild(message);
         return;
       }
@@ -71,12 +74,12 @@ btnView.addEventListener("click", async () => {
       hideLoading();
     }
     else{
-      message.textContent = "Not support yet :)";
+      message.innerText = "Not support yet :)";
       section.appendChild(message);
     }
   }catch(e){
     console.error(e);
-    message.textContent = `${e.message}`;
+    message.innerText = `${e.message}`;
     section.appendChild(message);
     hideLoading();
   }
@@ -143,6 +146,7 @@ function loadMediaViewByBase64(mediaData){
         sourceElement.src = `data:video/mp4;base64, ${mediaData.media.videos}`;
         vidElement.className = "media-item";
         vidElement.controls = true;
+        vidElement.style.gridColumn = "2 / 3";
         vidElement.appendChild(sourceElement);
         mediaContainer.appendChild(vidElement);
         section.appendChild(mediaContainer);
@@ -165,6 +169,7 @@ function loadMediaViewByBase64(mediaData){
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
+        imgElement.style.gridColumn = "2 / 3";
         mediaContainer.appendChild(imgElement);
         section.appendChild(mediaContainer);
         return;
