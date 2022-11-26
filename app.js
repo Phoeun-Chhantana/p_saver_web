@@ -5,6 +5,8 @@ const vidElement = document.createElement("video");
 const section = document.querySelector(".main-section");
 const message = document.createElement("p");
 const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
+const linkElement = document.createElement("a");
+const itemVideoContainer = document.createElement("div");
 //const cors = "https://cors-anywhere.herokuapp.com/";
 //const cors = "https://api.allorigins.win/get?url=";
 //const cors = "https://proxy.cors.sh/";
@@ -128,9 +130,10 @@ inputUrl.onfocus = function(e){
 function loadImageView(url){
   mediaContainer.className = "media-container";
   imgElement.src = url;
-  imgElement.className = "media-view";
+  imgElement.className = "media-item";
   imgElement.alt = "image"
   imgElement.loading = "lazy";
+  imgElement.style.gridColumn = "2 / 3";
   mediaContainer.appendChild(imgElement);
   section.appendChild(mediaContainer);
 }
@@ -138,34 +141,53 @@ function loadImageView(url){
 function loadMediaViewByBase64(mediaData){
   mediaContainer.className = "media-container";
   let temp = [];
-    if(mediaData.media.videos !== undefined){
-      if(typeof mediaData.media.videos === "string"){
-        console.log(mediaData.media.videos);
-        const sourceElement = document.createElement("source");
-        sourceElement.type = "video/mp4";
-        sourceElement.src = `data:video/mp4;base64, ${mediaData.media.videos}`;
-        vidElement.className = "media-item";
-        vidElement.controls = true;
-        vidElement.style.gridColumn = "2 / 3";
-        vidElement.appendChild(sourceElement);
-        mediaContainer.appendChild(vidElement);
+    if(mediaData.media.video !== undefined){
+      if(typeof mediaData.media.video === "string" && typeof mediaData.media.thumbnail === "string"){
+        // const sourceElement = document.createElement("source");
+        // sourceElement.type = "video/mp4";
+        // sourceElement.src = `data:video/mp4;base64, ${mediaData.media.videos}`;
+        // vidElement.className = "media-item";
+        // vidElement.controls = true;
+        // vidElement.style.gridColumn = "2 / 3";
+        // vidElement.appendChild(sourceElement);
+        // mediaContainer.appendChild(vidElement);
+        // section.appendChild(mediaContainer);
+
+        // itemVideoContainer.className = "media-item";
+        // itemVideoContainer.style.gridColumn = "2 / 3";
+
+        linkElement.target = "_blank";
+        linkElement.href = `${mediaData.media.video}`;
+        linkElement.innerText = "View Video";
+        linkElement.download = "Donwload Video";
+
+        imgElement.className = "media-item";
+        imgElement.loading = "lazy";
+        imgElement.crossOrigin = "anonymous";
+        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
+        itemVideoContainer.className = "item-video-container";
+        itemVideoContainer.style.gridColumn = "2 / 3";
+        
+        itemVideoContainer.appendChild(imgElement);
+        itemVideoContainer.appendChild(linkElement);
+        mediaContainer.appendChild(itemVideoContainer);
         section.appendChild(mediaContainer);
         return;
       }
-      for(let item of mediaData.media.videos){
-        const vidItem = document.createElement("video");
-        const sourceElement = document.createElement("source");
-        sourceElement.type = "video/mp4";
-        sourceElement.src = `data:video/mp4;base64, ${item}`;
-        vidItem.className = "media-item";
-        vidItem.controls = true;
-        vidItem.appendChild(sourceElement);
-        temp.push(vidItem);
-      }
+      // for(let item of mediaData.media.videos){
+      //   const vidItem = document.createElement("video");
+      //   const sourceElement = document.createElement("source");
+      //   sourceElement.type = "video/mp4";
+      //   sourceElement.src = `data:video/mp4;base64, ${item}`;
+      //   vidItem.className = "media-item";
+      //   vidItem.controls = true;
+      //   vidItem.appendChild(sourceElement);
+      //   temp.push(vidItem);
+      // }
     }
-    if(mediaData.media.images !== undefined){
-      if(typeof mediaData.media.images === "string"){
-        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.images}`;
+    if(mediaData.media.image !== undefined){
+      if(typeof mediaData.media.image === "string"){
+        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image}`;
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
@@ -174,6 +196,46 @@ function loadMediaViewByBase64(mediaData){
         section.appendChild(mediaContainer);
         return;
       }
+      // for(let item of mediaData.media.images){
+      //   const imgItem = document.createElement("img");
+      //   imgItem.src = `data:image/jpeg;base64, ${item}`;
+      //   imgItem.className = "media-item";
+      //   imgItem.alt = "image"
+      //   imgItem.loading = "lazy";
+      //   temp.push(imgItem);
+      // }
+    }
+
+    if(mediaData.media.videos !== undefined){
+      for(let item of mediaData.media.videos){
+        // const vidItem = document.createElement("video");
+        // const sourceElement = document.createElement("source");
+        // sourceElement.type = "video/mp4";
+        // sourceElement.src = `data:video/mp4;base64, ${item.video}`;
+        // vidItem.className = "media-item";
+        // vidItem.controls = true;
+        // vidItem.appendChild(sourceElement);
+        // temp.push(vidItem);
+        const itemVideoContainerItem = document.createElement("div");
+        const linkItem = document.createElement("a");
+        const imgItem = document.createElement("img");
+        linkItem.target = "_blank";
+        linkItem.href = `${item.video}`;
+        linkItem.innerText = "View Video";
+        linkItem.download = "Download Video"
+
+        imgItem.className = "media-item";
+        imgItem.loading = "lazy";
+        imgItem.crossOrigin = "anonymous";
+        imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
+        itemVideoContainerItem.className = "item-video-container";
+        
+        itemVideoContainerItem.appendChild(imgItem);
+        itemVideoContainerItem.appendChild(linkItem);
+        temp.push(itemVideoContainerItem);
+      }
+    }
+    if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
         imgItem.src = `data:image/jpeg;base64, ${item}`;

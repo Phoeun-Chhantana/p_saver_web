@@ -196,6 +196,10 @@ section > img{
      .div-form i:nth-child(1), .div-form i:nth-child(3){
         color: white;
      }
+
+     a{
+        color: black;
+     }
 }
 
 .media-container{
@@ -207,6 +211,26 @@ section > img{
 
 .media-item{
     width: 100%;
+}
+
+.item-video-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.125s ease;
+}
+
+a{
+    position: absolute;
+    color: white;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.item-video-container:hover{
+    opacity: 0.5;
 }
 
 @media (max-width: 768px){
