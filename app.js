@@ -143,19 +143,6 @@ function loadMediaViewByBase64(mediaData){
   let temp = [];
     if(mediaData.media.video !== undefined){
       if(typeof mediaData.media.video === "string" && typeof mediaData.media.thumbnail === "string"){
-        // const sourceElement = document.createElement("source");
-        // sourceElement.type = "video/mp4";
-        // sourceElement.src = `data:video/mp4;base64, ${mediaData.media.videos}`;
-        // vidElement.className = "media-item";
-        // vidElement.controls = true;
-        // vidElement.style.gridColumn = "2 / 3";
-        // vidElement.appendChild(sourceElement);
-        // mediaContainer.appendChild(vidElement);
-        // section.appendChild(mediaContainer);
-
-        // itemVideoContainer.className = "media-item";
-        // itemVideoContainer.style.gridColumn = "2 / 3";
-
         linkElement.target = "_blank";
         linkElement.href = `${mediaData.media.video}`;
         linkElement.innerText = "View Video";
@@ -166,7 +153,12 @@ function loadMediaViewByBase64(mediaData){
         imgElement.crossOrigin = "anonymous";
         imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
         itemVideoContainer.className = "item-video-container";
-        itemVideoContainer.style.gridColumn = "2 / 3";
+        // itemVideoContainer.style.gridColumn = "2 / 3";
+        if(window.innerWidth > 768){
+          itemVideoContainer.style.gridColumn = "2 / 3";
+        }else{
+          itemVideoContainer.style.gridColumn = "0";
+        }
         
         itemVideoContainer.appendChild(imgElement);
         itemVideoContainer.appendChild(linkElement);
@@ -191,7 +183,11 @@ function loadMediaViewByBase64(mediaData){
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
-        imgElement.style.gridColumn = "2 / 3";
+        if(window.innerWidth > 768){
+          imgElement.style.gridColumn = "2 / 3";
+        }else{
+          imgElement.style.gridColumn = "0";
+        }
         mediaContainer.appendChild(imgElement);
         section.appendChild(mediaContainer);
         return;
