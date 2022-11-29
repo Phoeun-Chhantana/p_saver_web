@@ -1,6 +1,5 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Roboto:wght@400;500&family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@400;500&family=Rubik&display=swap');
 
 *{
     margin: 0;
@@ -20,7 +19,7 @@ section{
 }
 
 h1{
-    font-family: 'Nerko One', cursive;
+    font-family: 'Righteous', cursive;
     font-size: 2rem;
 }
 

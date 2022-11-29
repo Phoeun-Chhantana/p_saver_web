@@ -178,8 +178,9 @@ function loadMediaViewByBase64(mediaData){
       // }
     }
     if(mediaData.media.image !== undefined){
-      if(typeof mediaData.media.image === "string"){
-        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image}`;
+      if(typeof mediaData.media.image === "object"){
+        console.log(mediaData.media.image.image_url);
+        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image.image_base64}`;
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
@@ -234,7 +235,7 @@ function loadMediaViewByBase64(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        imgItem.src = `data:image/jpeg;base64, ${item}`;
+        imgItem.src = `data:image/jpeg;base64, ${item.image_base64}`;
         imgItem.className = "media-item";
         imgItem.alt = "image"
         imgItem.loading = "lazy";
