@@ -68,7 +68,7 @@ btnView.addEventListener("click", async () => {
         section.appendChild(message);
         return;
       }
-      loadMediaViewByBase64(source.media);
+      loadMediaView(source.media);
     }
     else if(checkUrl.includes("tiktok")){
       showLoading();
@@ -138,7 +138,7 @@ function loadImageView(url){
   section.appendChild(mediaContainer);
 }
 
-function loadMediaViewByBase64(mediaData){
+function loadMediaView(mediaData){
   mediaContainer.className = "media-container";
   let temp = [];
     if(mediaData.media.video !== undefined){
@@ -150,10 +150,9 @@ function loadMediaViewByBase64(mediaData){
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
-        imgElement.crossOrigin = "anonymous";
-        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
+        //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
+        imgElement.src = `${mediaData.media.thumbnail}`;
         itemVideoContainer.className = "item-video-container";
-        // itemVideoContainer.style.gridColumn = "2 / 3";
         if(window.innerWidth > 768){
           itemVideoContainer.style.gridColumn = "2 / 3";
         }else{
@@ -177,10 +176,10 @@ function loadMediaViewByBase64(mediaData){
       //   temp.push(vidItem);
       // }
     }
-    if(mediaData.media.image !== undefined){
-      if(typeof mediaData.media.image === "object"){
-        console.log(mediaData.media.image.image_url);
-        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image.image_base64}`;
+    if(mediaData.media.image_url !== undefined){
+      if(typeof mediaData.media.image_url === "string"){
+        //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image.image_base64}`;
+        imgElement.src = `${mediaData.media.image_url}`;
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
@@ -223,8 +222,8 @@ function loadMediaViewByBase64(mediaData){
 
         imgItem.className = "media-item";
         imgItem.loading = "lazy";
-        imgItem.crossOrigin = "anonymous";
-        imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
+        //imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
+        imgItem.src = `${item.thumbnail}`;
         itemVideoContainerItem.className = "item-video-container";
         
         itemVideoContainerItem.appendChild(imgItem);
@@ -235,7 +234,8 @@ function loadMediaViewByBase64(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        imgItem.src = `data:image/jpeg;base64, ${item.image_base64}`;
+        //imgItem.src = `data:image/jpeg;base64, ${item.image_base64}`;
+        imgItem.src = `${item.image_url}`;
         imgItem.className = "media-item";
         imgItem.alt = "image"
         imgItem.loading = "lazy";
