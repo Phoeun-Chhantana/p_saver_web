@@ -3,11 +3,11 @@ class SocialSource{
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
         //this.url = `http://localhost:3000/url?${newUrl}`;
-        this.url = `https://my-cors-proxy.onrender.com/url?${newUrl}`;
+        this.url = `https://p-saver-server.onrender.com/url?${newUrl}`;
       }
       else{
         //this.url = `http://localhost:3000/url?${url}`;
-        this.url = `https://my-cors-proxy.onrender.com/url?${url}`;
+        this.url = `https://p-saver-server.onrender.com/url?${url}`;
       }
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
