@@ -2,12 +2,12 @@ class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        //this.url = `http://localhost:3000/url?${newUrl}`;
-        this.url = `https://p-saver-server.onrender.com/url?${newUrl}`;
+        //this.url = `http://localhost:3000/get/?url=${newUrl}`;
+        this.url = `https://p-saver-server.onrender.com/get/?url=${newUrl}`;
       }
       else{
-        //this.url = `http://localhost:3000/url?${url}`;
-        this.url = `https://p-saver-server.onrender.com/url?${url}`;
+        //this.url = `http://localhost:3000/get/?url=${url}`;
+        this.url = `https://p-saver-server.onrender.com/get/?url=${url}`;
       }
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
@@ -98,16 +98,8 @@ class SocialSource{
       super(url);
     }
     async fetchData(){
-      const options = {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET',
-          'Accept': '*/*'
-        }
-      }
-      const res = await fetch(`${this.url}?__a=1&__d=dis`, options);
+      const req = new Request(`${this.url}?__a=1&__d=dis`);
+      const res = await fetch(req);
       //const res = await fetch(`${this.url}`, options);
       //const htmlContent = await res.text();
       //const responseBody = JSON.parse(htmlContent);
@@ -170,36 +162,13 @@ class SocialSource{
         // }
 
         // METHOD 3
-         //https://www.instagram.com/web/search/topsearch/?query=muy_kheng
+         //https://www.instagram.com/web/search/topsearch/?query={username}
 
          //METHOD 4
-         //https://www.instagram.com/p/CHAuom7D9_w/?__a=1&__d=dis
+         //https://www.instagram.com/p/{shortcode}/?__a=1&__d=dis
       }
       else{
         return new UserInfo(new BaseResponse(res.status, res.statusText));
       }
     }
   }
-
-//   class TiktokSource extends SocialSource{
-//     constructor(url){
-//       super(url);
-//    }
-//    async fetchData(){
-//      const options = {
-//        method: 'GET',
-//        mode: 'cors',
-//        headers: {
-//          'Access-Control-Allow-Origin': '*',
-//          'Access-Control-Allow-Methods': 'GET',
-//          'Accept': '*/*'
-//        }
-//      }
-//      const res = await fetch(`${this.url}`, options);
-//      const htmlContent = await res.text();
-//      for(var item of htmlContent.split("cover")){
-//        console.log(item);
-//      }
-//     console.log(htmlContent);
-//    }
-// }

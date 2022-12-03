@@ -150,8 +150,8 @@ function loadMediaView(mediaData){
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
-        //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
-        imgElement.src = `${mediaData.media.thumbnail}`;
+        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
+        //imgElement.src = `${mediaData.media.thumbnail}`;
         itemVideoContainer.className = "item-video-container";
         if(window.innerWidth > 768){
           itemVideoContainer.style.gridColumn = "2 / 3";
@@ -178,8 +178,8 @@ function loadMediaView(mediaData){
     }
     if(mediaData.media.image_url !== undefined){
       if(typeof mediaData.media.image_url === "string"){
-        //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image.image_base64}`;
-        imgElement.src = `${mediaData.media.image_url}`;
+        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image_url}`;
+        //imgElement.src = `${mediaData.media.image_url}`;
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
@@ -222,8 +222,8 @@ function loadMediaView(mediaData){
 
         imgItem.className = "media-item";
         imgItem.loading = "lazy";
-        //imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
-        imgItem.src = `${item.thumbnail}`;
+        imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
+        //imgItem.src = `${item.thumbnail}`;
         itemVideoContainerItem.className = "item-video-container";
         
         itemVideoContainerItem.appendChild(imgItem);
@@ -234,8 +234,9 @@ function loadMediaView(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        //imgItem.src = `data:image/jpeg;base64, ${item.image_base64}`;
-        imgItem.src = `${item.image_url}`;
+        console.log(item)
+        imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
+        //imgItem.src = `${item.image_url}`;
         imgItem.className = "media-item";
         imgItem.alt = "image"
         imgItem.loading = "lazy";
