@@ -4,7 +4,7 @@ const imgElement = document.createElement("img");
 const vidElement = document.createElement("video");
 const section = document.querySelector(".main-section");
 const message = document.createElement("p");
-const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
+// const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
 const linkElement = document.createElement("a");
 const itemVideoContainer = document.createElement("div");
 //const cors = "https://cors-anywhere.herokuapp.com/";
@@ -69,11 +69,6 @@ btnView.addEventListener("click", async () => {
         return;
       }
       loadMediaView(source.media);
-    }
-    else if(checkUrl.includes("tiktok")){
-      showLoading();
-      const source = await new TiktokSource(inputUrl.value).fetchData();
-      hideLoading();
     }
     else{
       message.innerText = "Not support yet :)";
@@ -234,7 +229,6 @@ function loadMediaView(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        console.log(item)
         imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
         //imgItem.src = `${item.image_url}`;
         imgItem.className = "media-item";
