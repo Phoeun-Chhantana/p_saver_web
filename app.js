@@ -15,6 +15,20 @@ const btnView = document.querySelector("#btn-view");
 const btnClear = document.querySelector("#btn-clear");
 const loaderIndicator = document.querySelector("#loader-indicator");
 const iconLink = document.querySelector("#icon-link");
+const btnOptionContainer = document.createElement("div");
+const btnCopy = document.createElement("button");
+const btnDownload = document.createElement("btn-download");
+
+btnCopy.onclick = async () => {
+   // Copy the text
+  const url = btnCopy.getAttribute("data");
+  await navigator.clipboard.writeText(url);
+}
+
+btnDownload.onclick = () => {
+  const url = btnCopy.getAttribute("data");
+  downloadFile(url, `${Date.now()}.mp4`);
+}
 
 btnView.addEventListener("click", async () => {
   try{
@@ -148,9 +162,14 @@ async function loadMediaView(mediaData){
         }else{
           itemVideoContainer.style.gridColumn = "0";
         }
+
+        btnCopy.setAttribute("data", linkElement.href);
+        btnDownload.setAttribute("data", linkElement.href);
+        buildBtnOption();
         
         itemVideoContainer.appendChild(imgElement);
         itemVideoContainer.appendChild(linkElement);
+        itemVideoContainer.appendChild(btnOptionContainer);
         mediaContainer.appendChild(itemVideoContainer);
         section.appendChild(mediaContainer);
         delete linkElement;
@@ -182,6 +201,7 @@ async function loadMediaView(mediaData){
         }
         mediaContainer.appendChild(imgElement);
         section.appendChild(mediaContainer);
+        delete imgElement
         return;
       }
       // for(let item of mediaData.media.images){
@@ -217,10 +237,17 @@ async function loadMediaView(mediaData){
         imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
         //imgItem.src = `${item.thumbnail}`;
         itemVideoContainerItem.className = "item-video-container";
+
+        btnCopy.setAttribute("data", linkItem.href);
+        btnDownload.setAttribute("data", linkItem.href);
+        buildBtnOption();
         
         itemVideoContainerItem.appendChild(imgItem);
         itemVideoContainerItem.appendChild(linkItem);
+        itemVideoContainerItem.appendChild(btnOptionContainer)
         temp.push(itemVideoContainerItem);
+        delete linkItem
+        delete imgItem
       }
     }
     if(mediaData.media.images !== undefined){
@@ -232,6 +259,7 @@ async function loadMediaView(mediaData){
         imgItem.alt = "image"
         imgItem.loading = "lazy";
         temp.push(imgItem);
+        delete imgElement
       }
     }
     mediaContainer.replaceChildren(...temp);
@@ -248,15 +276,29 @@ function hideLoading(){
   loaderIndicator.style.display = "none";
 }
 
-// function downloadFile(data, filename){
-//   const blob = new Blob([data], { type: "octet-stream"})
-//   const href = URL.createObjectURL(blob)
-//   const a = Object.assign(document.createElement("a"), {
-//     href,
-//     download: filename
-//   })
-//   a.click()
-//   URL.revokeObjectURL(href)
-//   a.remove()
-//   delete a
-// }
+function buildBtnOption(){
+  btnCopy.innerHTML = `<i class="fa fa-clipboard" aria-hidden="true"></i>`;
+  btnCopy.className = "btn-copy";
+
+  btnDownload.innerHTML = `<i id="icon-download" class="fa fa-arrow-circle-down" aria-hidden="true"></i>`;
+  btnDownload.className = "btn-download";
+
+  btnOptionContainer.className = "btn-option-container";
+  btnOptionContainer.appendChild(btnCopy);
+  btnOptionContainer.appendChild(btnDownload);
+  delete btnCopy;
+  delete btnDownload;
+}
+
+function downloadFile(data, filename){
+  const blob = new Blob([data], { type: "octet-stream"})
+  const href = URL.createObjectURL(blob)
+  const a = Object.assign(document.createElement("a"), {
+    href,
+    download: filename
+  })
+  a.click()
+  URL.revokeObjectURL(href)
+  a.remove()
+  delete a
+}

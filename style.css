@@ -254,8 +254,32 @@ a{
     text-align: center;
 }
 
-.item-video-container:hover{
+.media-item:hover{
     opacity: 0.5;
+}
+
+.btn-copy, .btn-download{
+    padding: 1rem;
+    cursor: pointer;
+    border: none;
+    background-color: #1CB0F6;
+    color: white;
+    flex: 1;
+}
+
+#icon-download{
+    display: flex;
+    justify-content: center;
+}
+
+.btn-copy:hover, .btn-download:hover{
+    opacity: .8;
+}
+
+.btn-option-container{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
 }
 
 @media (max-width: 768px){
