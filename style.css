@@ -23,7 +23,7 @@ h1{
     font-size: 2rem;
 }
 
-div{
+div, .div-flex-col{
     display: flex;
     flex-direction: column;
     margin: 16px;
@@ -38,6 +38,25 @@ p{
     color: black;
     opacity: 0.5;
     margin: 16px;
+}
+
+.div-flex-col{
+    flex: 1;
+}
+
+.div-flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+#btn-dark-mode{
+    border: none;
+    background-color: transparent;
+    color: white;
+    align-items: center;
+    align-self: center;
+    cursor: pointer;
+    pointer-events: visible;
 }
 
 .div-form input{

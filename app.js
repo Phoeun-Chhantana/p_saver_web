@@ -4,7 +4,7 @@ const imgElement = document.createElement("img");
 const vidElement = document.createElement("video");
 const section = document.querySelector(".main-section");
 const message = document.createElement("p");
-// const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
+const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
 const linkElement = document.createElement("a");
 const itemVideoContainer = document.createElement("div");
 //const cors = "https://cors-anywhere.herokuapp.com/";
@@ -57,12 +57,6 @@ btnView.addEventListener("click", async () => {
       if(source === undefined){
         return;
       }
-      // if(!source.includes("http")){
-      //   message.textContent = source;
-      //   section.appendChild(message);
-      //   return;
-      // }
-      
       if(source.res.status != 200){
         message.innerText = source.res.message;
         section.appendChild(message);
@@ -133,7 +127,7 @@ function loadImageView(url){
   section.appendChild(mediaContainer);
 }
 
-function loadMediaView(mediaData){
+async function loadMediaView(mediaData){
   mediaContainer.className = "media-container";
   let temp = [];
     if(mediaData.media.video !== undefined){
@@ -141,7 +135,7 @@ function loadMediaView(mediaData){
         linkElement.target = "_blank";
         linkElement.href = `${mediaData.media.video}`;
         linkElement.innerText = "View Video";
-        linkElement.download = "Donwload Video";
+        linkElement.download = "";
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
@@ -158,6 +152,8 @@ function loadMediaView(mediaData){
         itemVideoContainer.appendChild(linkElement);
         mediaContainer.appendChild(itemVideoContainer);
         section.appendChild(mediaContainer);
+        delete linkElement;
+        delete imgElement;
         return;
       }
       // for(let item of mediaData.media.videos){

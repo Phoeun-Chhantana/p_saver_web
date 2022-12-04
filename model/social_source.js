@@ -24,16 +24,7 @@ class SocialSource{
        super(url);
     }
     async fetchData(){
-      const options = {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET',
-          'Accept': '*/*'
-        }
-      }
-      const res = await fetch(`${this.url}`, options);
+      const res = await fetch(`${this.url}`);
       if(res.status == 200){
         const htmlContent = await res.text();
         for(let item of htmlContent.split("pfp-container")){
