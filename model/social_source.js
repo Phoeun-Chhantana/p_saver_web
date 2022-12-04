@@ -51,16 +51,7 @@ class SocialSource{
       super(url);
     }
     async fetchData(){
-      const options = {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET',
-          'Accept': '*/*'
-        }
-      }
-      const res = await fetch(`${this.url}`, options);
+      const res = await fetch(`${this.url}`);
       const htmlContent = await res.text();
       const responseBody = JSON.parse(htmlContent);
       if(res.status == 200){
@@ -89,8 +80,15 @@ class SocialSource{
       super(url);
     }
     async fetchData(){
-      const req = new Request(`${this.url}?__a=1&__d=dis`);
-      const res = await fetch(req);
+      const options = {
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Accept": "*/*"
+        }
+      };
+      const res = await fetch(`${this.url}?__a=1&__d=dis`, options);
       //const res = await fetch(`${this.url}`, options);
       //const htmlContent = await res.text();
       //const responseBody = JSON.parse(htmlContent);

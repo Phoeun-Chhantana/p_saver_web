@@ -13,7 +13,7 @@ const itemVideoContainer = document.createElement("div");
 //const cors = "https://corsproxy.io/?";
 const btnView = document.querySelector("#btn-view");
 const btnClear = document.querySelector("#btn-clear");
-const loading = document.querySelector("#loading");
+const loader = document.querySelector("#loader");
 const iconLink = document.querySelector("#icon-link");
 
 btnView.addEventListener("click", async () => {
@@ -136,6 +136,7 @@ async function loadMediaView(mediaData){
         linkElement.href = `${mediaData.media.video}`;
         linkElement.innerText = "View Video";
         linkElement.download = "";
+        //downloadFile(mediaData.media.video, "video123.mp4")
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
@@ -239,14 +240,23 @@ async function loadMediaView(mediaData){
 
 function showLoading(){
   btnView.disabled = true;
-  btnView.style.filter = "grayscale()";
-  //section.insertAdjacentElement("afterend", loading);
-  loading.style.display = "block";
+  loader.style.display = "block";
 }
 
 function hideLoading(){
   btnView.disabled = false;
-  btnView.style.filter = "none";
-  loading.style.display = "none";
-  //section.removeChild(loading);
+  loader.style.display = "none";
 }
+
+// function downloadFile(data, filename){
+//   const blob = new Blob([data], { type: "octet-stream"})
+//   const href = URL.createObjectURL(blob)
+//   const a = Object.assign(document.createElement("a"), {
+//     href,
+//     download: filename
+//   })
+//   a.click()
+//   URL.revokeObjectURL(href)
+//   a.remove()
+//   delete a
+// }

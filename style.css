@@ -183,10 +183,18 @@ section > img{
 }
 
 #btn-view:disabled {
-  cursor: auto;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  filter: grayscale();
 }
 
-#loading{
+#btn-view:enabled{
+    cursor: pointer !important;
+    filter: none;
+    pointer-events: visible;
+}
+
+#loader{
     margin: auto; 
     background-color: rgb(255, 255, 255); 
     display: none; 
