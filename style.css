@@ -194,9 +194,8 @@ section > img{
     pointer-events: visible;
 }
 
-#loader{
+#loader-indicator{
     margin: auto; 
-    background-color: rgb(255, 255, 255); 
     display: none; 
     shape-rendering: auto;
 }

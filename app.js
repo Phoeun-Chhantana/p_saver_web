@@ -13,7 +13,7 @@ const itemVideoContainer = document.createElement("div");
 //const cors = "https://corsproxy.io/?";
 const btnView = document.querySelector("#btn-view");
 const btnClear = document.querySelector("#btn-clear");
-const loader = document.querySelector("#loader");
+const loaderIndicator = document.querySelector("#loader-indicator");
 const iconLink = document.querySelector("#icon-link");
 
 btnView.addEventListener("click", async () => {
@@ -240,12 +240,12 @@ async function loadMediaView(mediaData){
 
 function showLoading(){
   btnView.disabled = true;
-  loader.style.display = "block";
+  loaderIndicator.style.display = "block";
 }
 
 function hideLoading(){
   btnView.disabled = false;
-  loader.style.display = "none";
+  loaderIndicator.style.display = "none";
 }
 
 // function downloadFile(data, filename){
