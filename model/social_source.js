@@ -5,12 +5,12 @@ export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        this.url = `http://localhost:3000/get/?url=${newUrl}`;
-        //this.url = `https://p-saver-server.onrender.com/get/?url=${newUrl}`;
+        //this.url = `http://localhost:3000/get/?url=${newUrl}`;
+        this.url = `https://p-saver-server.onrender.com/get/?url=${newUrl}`;
       }
       else{
-        this.url = `http://localhost:3000/get/?url=${url}`;
-        //this.url = `https://p-saver-server.onrender.com/get/?url=${url}`;
+        //this.url = `http://localhost:3000/get/?url=${url}`;
+        this.url = `https://p-saver-server.onrender.com/get/?url=${url}`;
       }
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
