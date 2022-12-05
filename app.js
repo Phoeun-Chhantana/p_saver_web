@@ -1,10 +1,11 @@
+import downloadFile from "./modules/download_file.js";
+import { InstagramSource, NGLSource, FacebookSource } from "./model/social_source.js";
+
 const inputUrl = document.querySelector("#input-url");
 const mediaContainer = document.createElement("div");
 const imgElement = document.createElement("img");
-const vidElement = document.createElement("video");
 const section = document.querySelector(".main-section");
 const message = document.createElement("p");
-const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
 const linkElement = document.createElement("a");
 const itemVideoContainer = document.createElement("div");
 const btnView = document.querySelector("#btn-view");
@@ -21,9 +22,9 @@ btnCopy.onclick = async () => {
   await navigator.clipboard.writeText(url);
 }
 
-btnDownload.onclick = () => {
+btnDownload.onclick = async () => {
   const url = btnCopy.getAttribute("data");
-  downloadFile(url, `${Date.now()}.mp4`);
+  await downloadFile(url, `${Date.now()}.mp4`);
 }
 
 btnView.addEventListener("click", async () => {
@@ -146,7 +147,6 @@ async function loadMediaView(mediaData){
         linkElement.href = `${mediaData.media.video}`;
         linkElement.innerText = "View Video";
         linkElement.download = "";
-        //downloadFile(mediaData.media.video, "video123.mp4")
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
@@ -168,8 +168,8 @@ async function loadMediaView(mediaData){
         itemVideoContainer.appendChild(btnOptionContainer);
         mediaContainer.appendChild(itemVideoContainer);
         section.appendChild(mediaContainer);
-        delete linkElement;
-        delete imgElement;
+        // delete linkElement;
+        // delete imgElement;
         return;
       }
       // for(let item of mediaData.media.videos){
@@ -197,7 +197,7 @@ async function loadMediaView(mediaData){
         }
         mediaContainer.appendChild(imgElement);
         section.appendChild(mediaContainer);
-        delete imgElement
+        // delete imgElement
         return;
       }
       // for(let item of mediaData.media.images){
@@ -242,8 +242,8 @@ async function loadMediaView(mediaData){
         itemVideoContainerItem.appendChild(linkItem);
         itemVideoContainerItem.appendChild(btnOptionContainer)
         temp.push(itemVideoContainerItem);
-        delete linkItem
-        delete imgItem
+        // delete linkItem
+        // delete imgItem
       }
     }
     if(mediaData.media.images !== undefined){
@@ -255,7 +255,7 @@ async function loadMediaView(mediaData){
         imgItem.alt = "image"
         imgItem.loading = "lazy";
         temp.push(imgItem);
-        delete imgElement
+        //delete imgElement
       }
     }
     mediaContainer.replaceChildren(...temp);
@@ -282,19 +282,6 @@ function buildBtnOption(){
   btnOptionContainer.className = "btn-option-container";
   btnOptionContainer.appendChild(btnCopy);
   btnOptionContainer.appendChild(btnDownload);
-  delete btnCopy;
-  delete btnDownload;
-}
-
-function downloadFile(data, filename){
-  const blob = new Blob([data], { type: "octet-stream"})
-  const href = URL.createObjectURL(blob)
-  const a = Object.assign(document.createElement("a"), {
-    href,
-    download: filename
-  })
-  a.click()
-  URL.revokeObjectURL(href)
-  a.remove()
-  delete a
+  // delete btnCopy;
+  // delete btnDownload;
 }

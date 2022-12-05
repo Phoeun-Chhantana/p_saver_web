@@ -1,11 +1,11 @@
-class BaseResponse{
+export class BaseResponse{
     constructor(status, message){
         this.status = status;
         this.message = message;
     }
 }
 
-class UserInfo{
+export class UserInfo{
     constructor(res, media){
         this.res = res;
         this.media = media;

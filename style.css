@@ -254,9 +254,9 @@ a{
     text-align: center;
 }
 
-.media-item:hover{
+/* .media-item:hover{
     opacity: 0.5;
-}
+} */
 
 .btn-copy, .btn-download{
     padding: 1rem;

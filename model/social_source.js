@@ -1,13 +1,16 @@
-class SocialSource{
+import { UserInfo, BaseResponse } from "../model/user_info.js";
+import MediaInfo from "../model/media_info.js";
+
+export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        //this.url = `http://localhost:3000/get/?url=${newUrl}`;
-        this.url = `https://p-saver-server.onrender.com/get/?url=${newUrl}`;
+        this.url = `http://localhost:3000/get/?url=${newUrl}`;
+        //this.url = `https://p-saver-server.onrender.com/get/?url=${newUrl}`;
       }
       else{
-        //this.url = `http://localhost:3000/get/?url=${url}`;
-        this.url = `https://p-saver-server.onrender.com/get/?url=${url}`;
+        this.url = `http://localhost:3000/get/?url=${url}`;
+        //this.url = `https://p-saver-server.onrender.com/get/?url=${url}`;
       }
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
@@ -19,12 +22,13 @@ class SocialSource{
     }
   }
   
-  class NGLSource extends SocialSource{
+  export class NGLSource extends SocialSource{
     constructor(url){
        super(url);
     }
     async fetchData(){
       const res = await fetch(`${this.url}`);
+      const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
       if(res.status == 200){
         const htmlContent = await res.text();
         for(let item of htmlContent.split("pfp-container")){
@@ -46,7 +50,7 @@ class SocialSource{
     }
   }
   
-  class FacebookSource extends SocialSource{
+export class FacebookSource extends SocialSource{
     constructor(url){
       super(url);
     }
@@ -75,7 +79,7 @@ class SocialSource{
     }
   }
 
-  class InstagramSource extends SocialSource{
+export class InstagramSource extends SocialSource{
     constructor(url){
       super(url);
     }
