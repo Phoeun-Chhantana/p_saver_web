@@ -84,15 +84,7 @@ export class InstagramSource extends SocialSource{
       super(url);
     }
     async fetchData(){
-      const options = {
-        method: "GET",
-        mode: "cors",
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Accept": "*/*"
-        }
-      };
-      const res = await fetch(`${this.url}?__a=1&__d=dis`, options);
+      const res = await fetch(`${this.url}?__a=1&__d=dis`);
       //const res = await fetch(`${this.url}`, options);
       //const htmlContent = await res.text();
       //const responseBody = JSON.parse(htmlContent);
