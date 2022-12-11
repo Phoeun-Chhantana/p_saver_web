@@ -5,12 +5,12 @@ export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        this.url = `http://localhost:3000/get/?url=${newUrl}`;
-        //this.url = `https://p-save-server.onrender.com/get/?url=${newUrl}`;
+        //this.url = `http://localhost:3000/media/?url=${newUrl}`;
+        this.url = `https://p-save-server.onrender.com/media/?url=${newUrl}`;
       }
       else{
-        this.url = `http://localhost:3000/get/?url=${url}`;
-        //this.url = `https://p-save-server.onrender.com/get/?url=${url}`;
+        //this.url = `http://localhost:3000/get/?url=${url}`;
+        this.url = `https://p-save-server.onrender.com/get/?url=${url}`;
       }
       if (this.constructor == SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
@@ -91,8 +91,11 @@ export class InstagramSource extends SocialSource{
       const responseBody = await res.json();
       const jsonObj = JSON.parse(responseBody);
       if(res.status == 200){
+        // return new UserInfo(new BaseResponse(res.status, res.statusText), 
+        //     new MediaInfo(jsonObj["media_data"]));
+
         return new UserInfo(new BaseResponse(res.status, res.statusText), 
-            new MediaInfo(jsonObj["media_data"]));
+            new MediaInfo(jsonObj["results_number"], jsonObj["url_list"]));
 
         // if(this.url.includes("instagram/p/")){
 

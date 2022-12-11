@@ -1,5 +1,6 @@
 export default class MediaInfo{
-    constructor(media){
+    constructor(resultCount, media){
+        this.resultCount = resultCount;
         this.media = media;
     }
 }

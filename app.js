@@ -73,7 +73,8 @@ btnView.addEventListener("click", async () => {
         section.appendChild(message);
         return;
       }
-      loadMediaView(source.media);
+      //loadMediaView(source.media);
+      displayMediaView(source.media);
     }
     else{
       message.innerText = "Not support yet :)";
@@ -172,16 +173,6 @@ async function loadMediaView(mediaData){
         // delete imgElement;
         return;
       }
-      // for(let item of mediaData.media.videos){
-      //   const vidItem = document.createElement("video");
-      //   const sourceElement = document.createElement("source");
-      //   sourceElement.type = "video/mp4";
-      //   sourceElement.src = `data:video/mp4;base64, ${item}`;
-      //   vidItem.className = "media-item";
-      //   vidItem.controls = true;
-      //   vidItem.appendChild(sourceElement);
-      //   temp.push(vidItem);
-      // }
     }
     if(mediaData.media.image_url !== undefined){
       if(typeof mediaData.media.image_url === "string"){
@@ -200,26 +191,10 @@ async function loadMediaView(mediaData){
         // delete imgElement
         return;
       }
-      // for(let item of mediaData.media.images){
-      //   const imgItem = document.createElement("img");
-      //   imgItem.src = `data:image/jpeg;base64, ${item}`;
-      //   imgItem.className = "media-item";
-      //   imgItem.alt = "image"
-      //   imgItem.loading = "lazy";
-      //   temp.push(imgItem);
-      // }
     }
 
     if(mediaData.media.videos !== undefined){
       for(let item of mediaData.media.videos){
-        // const vidItem = document.createElement("video");
-        // const sourceElement = document.createElement("source");
-        // sourceElement.type = "video/mp4";
-        // sourceElement.src = `data:video/mp4;base64, ${item.video}`;
-        // vidItem.className = "media-item";
-        // vidItem.controls = true;
-        // vidItem.appendChild(sourceElement);
-        // temp.push(vidItem);
         const itemVideoContainerItem = document.createElement("div");
         const linkItem = document.createElement("a");
         const imgItem = document.createElement("img");
@@ -260,6 +235,71 @@ async function loadMediaView(mediaData){
     }
     mediaContainer.replaceChildren(...temp);
     section.appendChild(mediaContainer);
+}
+
+const displayMediaView = (mediaData) => {
+  mediaContainer.className = "media-container";
+  let temp = [];
+  for(let item of mediaData.media){
+    if(item.includes(".jpg")){
+      const imgItem = document.createElement("img");
+      imgItem.src = `${item}`;
+      imgItem.className = "media-item";
+      imgItem.alt = "image"
+      imgItem.loading = "lazy";
+      if(mediaData.resultCount === 1){
+        if(window.innerWidth > 768){
+          imgItem.style.gridColumn = "2 / 3";
+        }else{
+          imgItem.style.gridColumn = "0";
+        }
+      }
+      temp.push(imgItem);
+    }
+    else{
+      const itemVideoContainerItem = document.createElement("div");
+      const video = document.createElement("video");
+      const sourceVid = document.createElement("source");
+      // const linkItem = document.createElement("a");
+      // const imgItem = document.createElement("img");
+      // linkItem.target = "_blank";
+      // linkItem.href = `${item.video}`;
+      // linkItem.innerText = "View Video";
+      // linkItem.download = "Download Video"
+
+      // imgItem.className = "media-item";
+      // imgItem.loading = "lazy";
+      // imgItem.src = `${item}`;
+      // //imgItem.src = `${item.thumbnail}`;
+      // itemVideoContainerItem.className = "item-video-container";
+
+      // btnCopy.setAttribute("data", linkItem.href);
+      // btnDownload.setAttribute("data", linkItem.href);
+      // buildBtnOption();
+      
+      // itemVideoContainerItem.appendChild(imgItem);
+      // itemVideoContainerItem.appendChild(linkItem);
+      // itemVideoContainerItem.appendChild(btnOptionContainer)
+
+      video.controls = true;
+      sourceVid.type = "video/mp4";
+      sourceVid.src = `${item}`;
+
+      video.appendChild(sourceVid);
+      itemVideoContainerItem.appendChild(video);
+      if(mediaData.resultCount === 1){
+        if(window.innerWidth > 768){
+          itemVideoContainerItem.style.gridColumn = "2 / 3";
+        }else{
+          itemVideoContainerItem.style.gridColumn = "0";
+        }
+      }
+      temp.push(itemVideoContainerItem);
+    }
+  }
+
+  mediaContainer.replaceChildren(...temp);
+  section.appendChild(mediaContainer);
 }
 
 function showLoading(){
