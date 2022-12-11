@@ -1,5 +1,5 @@
 'use strict'
-async function downloadFile(url, filename){
+async function downloadFile({url, filename}){
     const blob = new Blob([url], { type: "octet/stream"})
     const href = URL.createObjectURL(blob)
     const a = Object.assign(document.createElement("a"), {

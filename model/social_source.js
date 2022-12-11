@@ -5,14 +5,14 @@ export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        //this.url = `http://localhost:3000/media/?url=${newUrl}`;
-        this.url = `https://p-save-server.onrender.com/media/?url=${newUrl}`;
+        this.url = `http://localhost:3000/get/?url=${newUrl}`;
+        //this.url = `https://p-save-server.onrender.com/get/?url=${newUrl}`;
       }
       else{
-        //this.url = `http://localhost:3000/get/?url=${url}`;
-        this.url = `https://p-save-server.onrender.com/get/?url=${url}`;
+        this.url = `http://localhost:3000/get/?url=${url}`;
+        //this.url = `https://p-save-server.onrender.com/get/?url=${url}`;
       }
-      if (this.constructor == SocialSource) {
+      if (this.constructor === SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
       }
     }
@@ -36,16 +36,23 @@ export class SocialSource{
             if(item.match(regExp)){
               if(item.match(regExp)[0].includes("firebasestorage.googleapis")){
                 const urlProfilePic = item.match(regExp)[0].split("\">")[0].replaceAll("amp;", "");
-                return new UserInfo(
-                  new BaseResponse(res.status, res.statusText),
-                  new MediaInfo(urlProfilePic.substring(0, urlProfilePic.length - 1))
-                );
+                return new UserInfo({
+                  res: new BaseResponse({status: res.status, message: res.statusText}),
+                  media: new MediaInfo({
+                    media: urlProfilePic.substring(0, urlProfilePic.length - 1)
+                  })
+                });
               }
             }
           }
         }
       }else{
-        return new UserInfo(new BaseResponse(res.status, res.statusText));
+        return new UserInfo({
+          res: new BaseResponse({
+            status: res.status,
+            message: res.statusText
+          })
+        });
       }
     }
   }
@@ -67,14 +74,21 @@ export class FacebookSource extends SocialSource{
             //   return urlProfilePic;
             // }
             const urlProfilePic = item.substring(30).split("\"")[0].replaceAll("amp;", "");
-            return new UserInfo(
-              new BaseResponse(res.status, res.statusText),
-              new MediaInfo(urlProfilePic)
-            );
+            return new UserInfo({
+              res: new BaseResponse({status: res.status, message: res.statusText}),
+              media: new MediaInfo({
+                media: urlProfilePic
+              })
+            });
           }
         }
       }else{
-        return new UserInfo(new BaseResponse(res.status, res.statusText));
+        return new UserInfo({
+          res: new BaseResponse({
+            status: res.status,
+            message: res.statusText
+          })
+        });
       }
     }
   }
@@ -85,17 +99,18 @@ export class InstagramSource extends SocialSource{
     }
     async fetchData(){
       const res = await fetch(`${this.url}?__a=1&__d=dis`);
-      //const res = await fetch(`${this.url}`, options);
-      //const htmlContent = await res.text();
-      //const responseBody = JSON.parse(htmlContent);
       const responseBody = await res.json();
       const jsonObj = JSON.parse(responseBody);
       if(res.status == 200){
-        // return new UserInfo(new BaseResponse(res.status, res.statusText), 
-        //     new MediaInfo(jsonObj["media_data"]));
+        return new UserInfo({
+          res: new BaseResponse({status: res.status, message: res.statusText}),
+          media: new MediaInfo({
+            media: jsonObj["media_data"]
+          })
+        })
 
-        return new UserInfo(new BaseResponse(res.status, res.statusText), 
-            new MediaInfo(jsonObj["results_number"], jsonObj["url_list"]));
+        // return new UserInfo(new BaseResponse(res.status, res.statusText), 
+        //     new MediaInfo(jsonObj["results_number"], jsonObj["url_list"]));
 
         // if(this.url.includes("instagram/p/")){
 
@@ -156,7 +171,12 @@ export class InstagramSource extends SocialSource{
          //https://www.instagram.com/p/{shortcode}/?__a=1&__d=dis
       }
       else{
-        return new UserInfo(new BaseResponse(res.status, res.statusText));
+        return new UserInfo({
+          res: new BaseResponse({
+            status: res.status,
+            message: res.statusText
+          })
+        });
       }
     }
   }

@@ -24,7 +24,10 @@ btnCopy.onclick = async () => {
 
 btnDownload.onclick = async () => {
   const url = btnCopy.getAttribute("data");
-  await downloadFile(url, `${Date.now()}.mp4`);
+  await downloadFile({
+    url: url,
+    filename: `${Date.now()}.mp4`
+  });
 }
 
 btnView.addEventListener("click", async () => {
@@ -73,8 +76,8 @@ btnView.addEventListener("click", async () => {
         section.appendChild(message);
         return;
       }
-      //loadMediaView(source.media);
-      displayMediaView(source.media);
+      loadMediaView(source.media);
+      //displayMediaView(source.media);
     }
     else{
       message.innerText = "Not support yet :)";
@@ -237,70 +240,70 @@ async function loadMediaView(mediaData){
     section.appendChild(mediaContainer);
 }
 
-const displayMediaView = (mediaData) => {
-  mediaContainer.className = "media-container";
-  let temp = [];
-  for(let item of mediaData.media){
-    if(item.includes(".jpg")){
-      const imgItem = document.createElement("img");
-      imgItem.src = `${item}`;
-      imgItem.className = "media-item";
-      imgItem.alt = "image"
-      imgItem.loading = "lazy";
-      if(mediaData.resultCount === 1){
-        if(window.innerWidth > 768){
-          imgItem.style.gridColumn = "2 / 3";
-        }else{
-          imgItem.style.gridColumn = "0";
-        }
-      }
-      temp.push(imgItem);
-    }
-    else{
-      const itemVideoContainerItem = document.createElement("div");
-      const video = document.createElement("video");
-      const sourceVid = document.createElement("source");
-      // const linkItem = document.createElement("a");
-      // const imgItem = document.createElement("img");
-      // linkItem.target = "_blank";
-      // linkItem.href = `${item.video}`;
-      // linkItem.innerText = "View Video";
-      // linkItem.download = "Download Video"
+// const displayMediaView = (mediaData) => {
+//   mediaContainer.className = "media-container";
+//   let temp = [];
+//   for(let item of mediaData.media){
+//     if(item.includes(".jpg")){
+//       const imgItem = document.createElement("img");
+//       imgItem.src = `${item}`;
+//       imgItem.className = "media-item";
+//       imgItem.alt = "image"
+//       imgItem.loading = "lazy";
+//       if(mediaData.resultCount === 1){
+//         if(window.innerWidth > 768){
+//           imgItem.style.gridColumn = "2 / 3";
+//         }else{
+//           imgItem.style.gridColumn = "0";
+//         }
+//       }
+//       temp.push(imgItem);
+//     }
+//     else{
+//       const itemVideoContainerItem = document.createElement("div");
+//       const video = document.createElement("video");
+//       const sourceVid = document.createElement("source");
+//       // const linkItem = document.createElement("a");
+//       // const imgItem = document.createElement("img");
+//       // linkItem.target = "_blank";
+//       // linkItem.href = `${item.video}`;
+//       // linkItem.innerText = "View Video";
+//       // linkItem.download = "Download Video"
 
-      // imgItem.className = "media-item";
-      // imgItem.loading = "lazy";
-      // imgItem.src = `${item}`;
-      // //imgItem.src = `${item.thumbnail}`;
-      // itemVideoContainerItem.className = "item-video-container";
+//       // imgItem.className = "media-item";
+//       // imgItem.loading = "lazy";
+//       // imgItem.src = `${item}`;
+//       // //imgItem.src = `${item.thumbnail}`;
+//       // itemVideoContainerItem.className = "item-video-container";
 
-      // btnCopy.setAttribute("data", linkItem.href);
-      // btnDownload.setAttribute("data", linkItem.href);
-      // buildBtnOption();
+//       // btnCopy.setAttribute("data", linkItem.href);
+//       // btnDownload.setAttribute("data", linkItem.href);
+//       // buildBtnOption();
       
-      // itemVideoContainerItem.appendChild(imgItem);
-      // itemVideoContainerItem.appendChild(linkItem);
-      // itemVideoContainerItem.appendChild(btnOptionContainer)
+//       // itemVideoContainerItem.appendChild(imgItem);
+//       // itemVideoContainerItem.appendChild(linkItem);
+//       // itemVideoContainerItem.appendChild(btnOptionContainer)
 
-      video.controls = true;
-      sourceVid.type = "video/mp4";
-      sourceVid.src = `${item}`;
+//       video.controls = true;
+//       sourceVid.type = "video/mp4";
+//       sourceVid.src = `${item}`;
 
-      video.appendChild(sourceVid);
-      itemVideoContainerItem.appendChild(video);
-      if(mediaData.resultCount === 1){
-        if(window.innerWidth > 768){
-          itemVideoContainerItem.style.gridColumn = "2 / 3";
-        }else{
-          itemVideoContainerItem.style.gridColumn = "0";
-        }
-      }
-      temp.push(itemVideoContainerItem);
-    }
-  }
+//       video.appendChild(sourceVid);
+//       itemVideoContainerItem.appendChild(video);
+//       if(mediaData.resultCount === 1){
+//         if(window.innerWidth > 768){
+//           itemVideoContainerItem.style.gridColumn = "2 / 3";
+//         }else{
+//           itemVideoContainerItem.style.gridColumn = "0";
+//         }
+//       }
+//       temp.push(itemVideoContainerItem);
+//     }
+//   }
 
-  mediaContainer.replaceChildren(...temp);
-  section.appendChild(mediaContainer);
-}
+//   mediaContainer.replaceChildren(...temp);
+//   section.appendChild(mediaContainer);
+// }
 
 function showLoading(){
   btnView.disabled = true;
