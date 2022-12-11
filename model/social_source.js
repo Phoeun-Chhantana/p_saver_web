@@ -5,8 +5,8 @@ export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        //this.url = `http://localhost:3000/get/?url=${newUrl}`;
-        this.url = `https://p-save-server.onrender.com/get/?url=${newUrl}`;
+        //this.url = `http://localhost:3000/media/?url=${newUrl}`;
+        this.url = `https://p-save-server.onrender.com/media/?url=${newUrl}`;
       }
       else{
         //this.url = `http://localhost:3000/get/?url=${url}`;
