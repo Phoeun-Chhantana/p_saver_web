@@ -1,7 +1,7 @@
 
 /**
- * @param { int } resultCount Array size
- * @param { Object } media 
+ * @param { number } resultCount Array size
+ * @param { object } media 
  */
 
 export default class MediaInfo{
