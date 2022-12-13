@@ -228,9 +228,9 @@ async function loadMediaView(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        //imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
-        imgItem.crossOrigin = "anonymous";
-        imgItem.src = `${item.image_url}`;
+        imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
+        // imgItem.crossOrigin = "anonymous";
+        // imgItem.src = `${item.image_url}`;
         imgItem.className = "media-item";
         imgItem.alt = "image"
         imgItem.loading = "lazy";
