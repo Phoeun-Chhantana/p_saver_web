@@ -180,7 +180,7 @@ async function loadMediaView(mediaData){
     if(mediaData.media.image_url !== undefined){
       if(typeof mediaData.media.image_url === "string"){
         //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image_url}`;
-        //imgElement.crossOrigin = "anonymous";
+        imgElement.crossOrigin = "anonymous";
         imgElement.src = `${mediaData.media.image_url}`;
         imgElement.className = "media-item";
         imgElement.alt = "image"
