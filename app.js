@@ -154,8 +154,9 @@ async function loadMediaView(mediaData){
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
-        imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
-        //imgElement.src = `${mediaData.media.thumbnail}`;
+        //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
+        imgElement.crossOrigin = "anonymous";
+        imgElement.src = `${mediaData.media.thumbnail}`;
         itemVideoContainer.className = "item-video-container";
         if(window.innerWidth > 768){
           itemVideoContainer.style.gridColumn = "2 / 3";
@@ -181,7 +182,7 @@ async function loadMediaView(mediaData){
       if(typeof mediaData.media.image_url === "string"){
         //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.image_url}`;
         imgElement.crossOrigin = "anonymous";
-        imgElement.src = `${mediaData.media.image_url}`.replace("http", "https");
+        imgElement.src = `${mediaData.media.image_url}`;
         imgElement.className = "media-item";
         imgElement.alt = "image"
         imgElement.loading = "lazy";
@@ -209,8 +210,9 @@ async function loadMediaView(mediaData){
 
         imgItem.className = "media-item";
         imgItem.loading = "lazy";
-        imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
-        //imgItem.src = `${item.thumbnail}`;
+        //imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
+        imgItem.crossOrigin = "anonymous";
+        imgItem.src = `${item.thumbnail}`;
         itemVideoContainerItem.className = "item-video-container";
 
         btnCopy.setAttribute("data", linkItem.href);
@@ -228,9 +230,9 @@ async function loadMediaView(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
-        // imgItem.crossOrigin = "anonymous";
-        // imgItem.src = `${item.image_url}`;
+        //imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
+        imgItem.crossOrigin = "anonymous";
+        imgItem.src = `${item.image_url}`;
         imgItem.className = "media-item";
         imgItem.alt = "image"
         imgItem.loading = "lazy";
