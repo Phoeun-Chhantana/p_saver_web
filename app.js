@@ -23,10 +23,17 @@ btnCopy.onclick = async () => {
 }
 
 btnDownload.onclick = async () => {
-  const url = btnCopy.getAttribute("data");
+  const url = btnDownload.getAttribute("data");
+  if(url.includes(".mp4")){
+    await downloadFile({
+      url: url,
+      filename: `${Date.now()}.mp4`
+    });
+    return;
+  }
   await downloadFile({
     url: url,
-    filename: `${Date.now()}.mp4`
+    filename: `${Date.now()}.jpg`
   });
 }
 
