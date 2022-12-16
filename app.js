@@ -16,12 +16,17 @@ const btnOptionContainer = document.createElement("div");
 const btnCopy = document.createElement("button");
 const btnDownload = document.createElement("btn-download");
 
+/**
+ * Copy Link trigger
+ */
 btnCopy.onclick = async () => {
-   // Copy the text
   const url = btnCopy.getAttribute("data");
   await navigator.clipboard.writeText(url);
 }
 
+/**
+ * Download Image trigger
+ */
 btnDownload.onclick = async () => {
   const url = btnDownload.getAttribute("data");
   if(url.includes(".mp4")){
@@ -37,6 +42,9 @@ btnDownload.onclick = async () => {
   });
 }
 
+/**
+ * Get source trigger
+ */
 btnView.addEventListener("click", async () => {
   try{
     const checkUrl = inputUrl.value.toLowerCase();
@@ -138,17 +146,27 @@ inputUrl.onfocus = function(e){
   }
 }
 
+/**
+ * Load image view
+ */
 function loadImageView(url){
   mediaContainer.className = "media-container";
   imgElement.src = url;
   imgElement.className = "media-item";
   imgElement.alt = "image"
   imgElement.loading = "lazy";
-  imgElement.style.gridColumn = "2 / 3";
+  if(window.innerWidth > 768){
+    imgElement.style.gridColumn = "2 / 3";
+  }else{
+    imgElement.style.gridColumn = "0";
+  }
   mediaContainer.appendChild(imgElement);
   section.appendChild(mediaContainer);
 }
 
+/**
+ * Load media view
+ */
 async function loadMediaView(mediaData){
   mediaContainer.className = "media-container";
   let temp = [];
@@ -161,7 +179,6 @@ async function loadMediaView(mediaData){
 
         imgElement.className = "media-item";
         imgElement.loading = "lazy";
-        //imgElement.src = `data:image/jpeg;base64, ${mediaData.media.thumbnail}`;
         imgElement.crossOrigin = "anonymous";
         imgElement.src = `${mediaData.media.thumbnail}`;
         itemVideoContainer.className = "item-video-container";
@@ -217,7 +234,6 @@ async function loadMediaView(mediaData){
 
         imgItem.className = "media-item";
         imgItem.loading = "lazy";
-        //imgItem.src = `data:image/jpeg;base64, ${item.thumbnail}`;
         imgItem.crossOrigin = "anonymous";
         imgItem.src = `${item.thumbnail}`;
         itemVideoContainerItem.className = "item-video-container";
@@ -237,7 +253,6 @@ async function loadMediaView(mediaData){
     if(mediaData.media.images !== undefined){
       for(let item of mediaData.media.images){
         const imgItem = document.createElement("img");
-        //imgItem.src = `data:image/jpeg;base64, ${item.image_url}`;
         imgItem.crossOrigin = "anonymous";
         imgItem.src = `${item.image_url}`;
         imgItem.className = "media-item";
