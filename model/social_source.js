@@ -5,12 +5,12 @@ export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        //this.url = `http://localhost:3000/get/?url=${newUrl}`;
-        this.url = `https://p-save-server.onrender.com/get/?url=${newUrl}`;
+        this.url = `http://localhost:3000/get/?url=${newUrl}`;
+        //this.url = `https://p-save-server.onrender.com/get/?url=${newUrl}`;
       }
       else{
-        //this.url = `http://localhost:3000/get/?url=${url}`;
-        this.url = `https://p-save-server.onrender.com/get/?url=${url}`;
+        this.url = `http://localhost:3000/get/?url=${url}`;
+        //this.url = `https://p-save-server.onrender.com/get/?url=${url}`;
       }
       if (this.constructor === SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
@@ -64,7 +64,7 @@ export class FacebookSource extends SocialSource{
     async fetchData(){
       const res = await fetch(`${this.url}`);
       const htmlContent = await res.text();
-      const responseBody = JSON.parse(htmlContent);
+      const responseBody = htmlContent;
       if(res.status == 200){
         for(let item of responseBody.split("meta")){
           if(item.includes("og:image")){
