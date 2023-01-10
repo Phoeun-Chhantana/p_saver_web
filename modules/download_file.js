@@ -3,16 +3,21 @@ async function downloadFile({url, filename}){
     //const blob = new Blob([url], { type: "octet/stream"})
     const blob = await fetch(url).then(res => res.blob())
     const href = objectURL(blob)
-    const a = Object.assign(document.createElement("a"), {
-      href,
-      download: filename
-    })
+    //const a = Object.assign(document.createElement("a"), {
+      //href,
+      //download: filename
+    //})
+    //document.body.append(a)
+    //a.dispatchEvent(new MouseEvent("click", {
+      //bubbles: true,
+      //cancelable: true,
+      //view: window
+    //}))
+    const a = document.createElement("a")
+    a.href = href
+    a.download = filename
     document.body.append(a)
-    a.dispatchEvent(new MouseEvent("click", {
-      bubbles: true,
-      cancelable: true,
-      view: window
-    }))
+    a.click()
     const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
     revoke.revokeObjectURL(href)
     a.remove()
