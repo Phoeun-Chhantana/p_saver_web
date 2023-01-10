@@ -7,6 +7,7 @@ async function downloadFile({url, filename}){
       href,
       download: filename
     })
+    document.body.append(a)
     a.dispatchEvent(new MouseEvent("click", {
       bubbles: true,
       cancelable: true,
