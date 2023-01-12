@@ -1,6 +1,6 @@
 async function downloadFile({url, filename}){
     //const blob = new Blob([url], { type: "octet/stream"})
-    const blob = await fetch(encodeURIComponent(url)).then(res => await res.blob())
+    const blob = await fetch(encodeURIComponent(url)).then(res => res.blob()).catch((err) => alert(err))
     const href = window.URL.createObjectURL(blob)
     window.open(href)
     //const a = Object.assign(document.createElement("a"), {
