@@ -7,7 +7,6 @@ async function downloadFile({url, filename}){
       //href,
       //download: filename
     //})
-    //document.body.append(a)
     //a.dispatchEvent(new MouseEvent("click", {
       //bubbles: true,
       //cancelable: true,
@@ -16,8 +15,8 @@ async function downloadFile({url, filename}){
     const a = document.createElement("a")
     a.href = href
     a.download = filename
-    a.click()
     document.body.appendChild(a)
+    a.click()
     //const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
     //revoke.revokeObjectURL(href)
     URL.revokeObjectURL(href)
