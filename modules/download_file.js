@@ -16,7 +16,7 @@ async function downloadFile({url, filename}){
     const a = document.createElement("a")
     a.href = href
     a.download = filename
-    document.body.append(a)
+    document.body.appendChild(a)
     a.click()
     const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
     revoke.revokeObjectURL(href)
