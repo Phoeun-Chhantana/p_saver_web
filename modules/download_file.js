@@ -2,7 +2,7 @@
 async function downloadFile({url, filename}){
     //const blob = new Blob([url], { type: "octet/stream"})
     const blob = await fetch(url).then(res => res.blob())
-    const href = objectURL(blob)
+    const href = URL.createObjectURL(blob)
     //const a = Object.assign(document.createElement("a"), {
       //href,
       //download: filename
@@ -18,8 +18,9 @@ async function downloadFile({url, filename}){
     a.download = filename
     a.click()
     document.body.appendChild(a)
-    const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
-    revoke.revokeObjectURL(href)
+    //const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
+    //revoke.revokeObjectURL(href)
+    URL.revokeObjectURL(href)
     a.remove()
 
     // const a = document.createElement("a")
