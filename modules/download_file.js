@@ -8,7 +8,8 @@ async function downloadFile({url, filename}){
       }
     };
     const blob = await fetch(url, options).then(res => res.blob())
-    const href = window.URL.createObjectURL(blob)
+    const newBlob = new Blob([blob])
+    const href = window.URL.createObjectURL(newBlob)
     //const a = Object.assign(document.createElement("a"), {
       //href,
       //download: filename
