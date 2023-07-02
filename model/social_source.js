@@ -5,12 +5,12 @@ export class SocialSource{
     constructor(url) {
       if(url.includes("instagram")){
         const newUrl = url.split("?")[0];
-        //this.url = `http://localhost:3000/get/?url=${newUrl}`;
-        this.url = `https://p-saver-web-server.onrender.com/get/?url=${newUrl}`;
+        this.url = `http://localhost:3000/get/?url=${newUrl}`;
+        //this.url = `https://p-saver-web-server.onrender.com/get/?url=${newUrl}`;
       }
       else{
-        //this.url = `http://localhost:3000/get/?url=${url}`;
-        this.url = `https://p-saver-web-server.onrender.com/get/?url=${url}`;
+        this.url = `http://localhost:3000/get/?url=${url}`;
+        //this.url = `https://p-saver-web-server.onrender.com/get/?url=${url}`;
       }
       if (this.constructor === SocialSource) {
         throw new Error("Abstract classes can't be instantiated.");
@@ -31,21 +31,40 @@ export class SocialSource{
       const regExp = RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\w+");
       if(res.status == 200){
         const htmlContent = await res.text();
-        for(let item of htmlContent.split("pfp-container")){
-          if(item.includes("pfp") && item.includes(".jpg")){
-            if(item.match(regExp)){
-              if(item.match(regExp)[0].includes("firebasestorage.googleapis")){
-                const urlProfilePic = item.match(regExp)[0].split("\">")[0].replaceAll("amp;", "");
-                return new UserInfo({
-                  res: new BaseResponse({status: res.status, message: res.statusText}),
-                  media: new MediaInfo({
-                    media: urlProfilePic.substring(0, urlProfilePic.length - 1)
-                  })
-                });
-              }
+        if(htmlContent.includes("ig_pfp_url")){
+          //console.log(htmlContent.split("\\").at(149));
+
+          let urlProfile = "";
+          for(let item of htmlContent.split("\\")){
+            if(item.includes("firebasestorage.googleapis")){
+              //console.log(item);
+              urlProfile = item;
+              break;
             }
           }
+          //console.log(urlProfile.substring(1, urlProfile.length));
+          return new UserInfo({
+            res: new BaseResponse({status: res.status, message: res.statusText}),
+            media: new MediaInfo({
+              media: urlProfile.substring(1, urlProfile.length)
+            })
+          });
         }
+        // for(let item of htmlContent.split("pfp-container")){
+        //   if(item.includes("pfp") && item.includes(".jpg")){
+        //     if(item.match(regExp)){
+        //       if(item.match(regExp)[0].includes("firebasestorage.googleapis")){
+        //         const urlProfilePic = item.match(regExp)[0].split("\">")[0].replaceAll("amp;", "");
+        //         return new UserInfo({
+        //           res: new BaseResponse({status: res.status, message: res.statusText}),
+        //           media: new MediaInfo({
+        //             media: urlProfilePic.substring(0, urlProfilePic.length - 1)
+        //           })
+        //         });
+        //       }
+        //     }
+        //   }
+        // }
       }else{
         return new UserInfo({
           res: new BaseResponse({

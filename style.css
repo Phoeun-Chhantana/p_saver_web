@@ -287,3 +287,10 @@ a{
         grid-template-columns: 1fr;
     }
 }
+
+@media (min-width: 1024px){
+    .div-form{
+        width: 50%;
+        align-self: center;
+    }
+}

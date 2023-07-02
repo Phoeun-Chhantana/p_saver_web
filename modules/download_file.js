@@ -1,27 +1,20 @@
+'use strict'
 async function downloadFile({url, filename}){
-    //const blob = await fetch(encodeURIComponent(url)).then((res) => res.blob()).catch((err) => alert(err))
-    const blob = new Blob([url], {type: "application/octet-stream"})
-    const href = window.URL.createObjectURL(blob)
-    alert(href)
-    //const a = Object.assign(document.createElement("a"), {
-      //href,
-      //download: filename
-    //})
-    //a.dispatchEvent(new MouseEvent("click", {
-      //bubbles: true,
-      //cancelable: false,
-      //view: window
-    //}))
-    // const a = document.createElement("a")
-    // a.href = href
-    // a.download = filename
-    // a.target = "_blank";
-    // document.body.appendChild(a)
-    // a.click()
-    // //const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
-    // //revoke.revokeObjectURL(href)
-    // window.URL.revokeObjectURL(href)
-    // a.remove()
+    //const blob = new Blob([url], { type: "octet/stream"})
+    const blob = await fetch(url).then(res => res.blob())
+    const href = objectURL(blob)
+    const a = Object.assign(document.createElement("a"), {
+      href,
+      download: filename
+    })
+    a.dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    }))
+    const revoke = window.URL || window.URL.createObjectURL || window.webkitURL
+    revoke.revokeObjectURL(href)
+    a.remove()
 
     // const a = document.createElement("a")
     // a.href = href
